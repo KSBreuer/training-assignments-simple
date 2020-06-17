@@ -10,8 +10,7 @@ public class BoardFactory {
     }
     // end::createBoard[]
 }
-
-public class SquareLinker {
+ class SquareLinker {
     private Board board;
     private Square[][] grid;
 
