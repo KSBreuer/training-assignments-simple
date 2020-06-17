@@ -5,30 +5,49 @@ public class BoardFactory {
     public Board createBoard(Square[][] grid) {
         assert grid != null;
 
-        Board board = new Board(grid);
-
-        int width = board.getWidth();
-        int height = board.getHeight();
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                Square square = grid[x][y];
-                for (Direction dir : Direction.values()) {
-                    int dirX = (width + x + dir.getDeltaX()) % width;
-                    int dirY = (height + y + dir.getDeltaY()) % height;
-                    Square neighbour = grid[dirX][dirY];
-                    square.link(neighbour, dir);
-                }
-            }
-        }
-
-        return board;
+        SquareLinker squareLinker = new SquareLinker(grid);
+        return squareLinker.generateBoard();
     }
     // end::createBoard[]
 }
 
+public class SquareLinker {
+    private Board board;
+    private Square[][] grid;
+
+    public SquareLinker(Square[][] grid) {
+        this.grid = grid;
+        this.board = new Board(grid);
+    }
+
+    public Board generateBoard() {
+        traverseGrid();
+        return board;
+    }
+
+    private void traverseGrid() {
+        for (int x = 0; x < board.getWidth(); x++) {
+            for (int y = 0; y < board.getHeight(); y++) {
+                linkSquare(x, y);
+            }
+        }
+    }
+
+    private void linkSquare(int x, int y) {
+        Square square = grid[x][y];
+        for (Direction dir : Direction.values()) {
+            int dirX = (board.getWidth() + x + dir.getDeltaX()) % board.getWidth();
+            int dirY = (board.getHeight() + y + dir.getDeltaY()) % board.getHeight();
+            Square neighbour = grid[dirX][dirY];
+            square.link(neighbour, dir);
+        }
+    }
+}
+
 class Board {
     @SuppressWarnings("unused")
-    public Board(Square[][] grid) {}
+    public Board(Square[][] grid) {
+    }
 
     public int getWidth() {
         return 0;
@@ -41,7 +60,8 @@ class Board {
 
 class Square {
     @SuppressWarnings("unused")
-    public void link(Square neighbour, Direction dir) {}
+    public void link(Square neighbour, Direction dir) {
+    }
 }
 
 class Direction {
