@@ -9,7 +9,7 @@ public class BoardPanel {
     /**
      * Renders a single square on the given graphics context on the specified
      * rectangle.
-     * 
+     *
      * @param square
      *            The square to render.
      * @param g
@@ -23,28 +23,55 @@ public class BoardPanel {
      * @param h
      *            The height of this square (in pixels).
      */
-    private void render(Square square, Graphics g, int x, int y, int w, int h) {
-        square.getSprite().draw(g, x, y, w, h);
+    private void render(Square square, Graphics g) {
+        square.getSprite().draw(g, square.getStartPoint(), square.getWidth(), square.getHeight());
         for (Unit unit : square.getOccupants()) {
-            unit.getSprite().draw(g, x, y, w, h);
+            unit.getSprite().draw(g, square.getStartPoint(), square.getWidth(), square.getHeight());
         }
     }
     // end::render[]
 
     private class Sprite {
         @SuppressWarnings("unused")
-        public void draw(Graphics g, int x, int y, int w, int h) {
+        public void draw(Graphics g, Point startPoint, int w, int h) {
 
         }
     }
 
+    private class Point {
+        private int x;
+        private int y;
+
+        public Point(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+
     private class Unit {
+        private Point startPoint;
+
+        public Point getStartPoint() {
+            return startPoint;
+        }
+
         public Sprite getSprite() {
             return null;
         }
     }
 
     private class Square extends Unit {
+
+        private int width;
+        private int height;
+
+        public int getHeight() {
+            return height;
+        }
+
+        public int getWidth() {
+            return width;
+        }
 
         public List<Unit> getOccupants() {
             return null;
